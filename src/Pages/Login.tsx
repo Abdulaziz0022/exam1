@@ -1,5 +1,4 @@
-// src/pages/LoginPage.tsx
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
@@ -7,11 +6,18 @@ import { toast } from 'react-hot-toast'
 import img from '../assets/IMAGE.png'
 import logo from '../assets/logo.png'
 
-const LoginPage: React.FC = () => {
+const Login: React.FC = () => {
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    if (token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -37,16 +43,16 @@ const LoginPage: React.FC = () => {
         }
       )
 
-      const tokens = response.data?.tokens
+     const tokens = response.data?.data?.tokens
 
-      if (tokens?.access && tokens?.refresh) {
-        localStorage.setItem('accessToken', tokens.access)
-        localStorage.setItem('refreshToken', tokens.refresh)
+			if (tokens?.access && tokens?.refresh) {
+				localStorage.setItem('accessToken', tokens.access)
+				localStorage.setItem('refreshToken', tokens.refresh)
         navigate('/')
       } else {
         toast.error('Tokenlar olinmadi, qaytadan urinib ko‘ring')
       }
-    } catch (error: any) {
+    } catch (error) {
       let msg = 'Tizimga kirishda xatolik yuz berdi'
 
       if (axios.isAxiosError(error)) {
@@ -68,7 +74,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="flex h-screen">
       <div className="w-1/2 h-full">
-        <img src={img} alt="CRM Visual" className="w-full h-full object-cover" />
+        <img src={img} alt="CRM Visual" className="w-full h-full" />
       </div>
 
       <div className="w-1/2 h-full flex flex-col justify-center items-center bg-white px-10">
@@ -113,4 +119,4 @@ const LoginPage: React.FC = () => {
   )
 }
 
-export default LoginPage
+export default Login
