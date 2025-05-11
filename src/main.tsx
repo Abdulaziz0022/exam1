@@ -9,7 +9,7 @@ import Personal from './Pages/personal'
 import Employees from './Pages/employees'
 import Clients from './Pages/clients'
 import Attendance from './Pages/attendance'
-import Monthly from './Pages/monthly'
+import Shifts from './Pages/shifts'
 
 
 function ProtectedRoute() {
@@ -28,7 +28,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/employees" element={<Employees />} />
           <Route path="/attendance" element={<Attendance />} />
           <Route path="/clients" element={<Clients />} />
-          <Route path="/montly" element={<Monthly />} />
+          <Route path="/shifts" element={<Shifts />} />
         </Route>
       </Routes>
     </BrowserRouter>
